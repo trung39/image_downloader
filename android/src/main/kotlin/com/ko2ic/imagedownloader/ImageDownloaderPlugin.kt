@@ -19,6 +19,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import com.ko2ic.imagedownloader.Downloader
 import com.ko2ic.imagedownloader.ImageDownloaderPlugin.TemporaryDatabase.Companion.COLUMNS
 import com.ko2ic.imagedownloader.ImageDownloaderPlugin.TemporaryDatabase.Companion.TABLE_NAME
 import io.flutter.embedding.engine.plugins.FlutterPlugin
