@@ -5,9 +5,11 @@ import android.app.DownloadManager
 import android.app.DownloadManager.*
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.RECEIVER_EXPORTED
 import android.content.Intent
 import android.content.IntentFilter
 import android.database.Cursor
+import android.os.Build
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -35,7 +37,7 @@ class Downloader(private val context: Context, private val request: Request) {
                 }
             }
         }
-        context.registerReceiver(receiver, IntentFilter(ACTION_DOWNLOAD_COMPLETE))
+        registerReceiver()
         downloadId = manager.enqueue(request)
         downloadId?.let { nullableDownloadId ->
             Thread {
@@ -84,6 +86,15 @@ class Downloader(private val context: Context, private val request: Request) {
                     Thread.sleep(200)
                 }
             }.start()
+        }
+    }
+
+    private fun registerReceiver() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, IntentFilter(ACTION_DOWNLOAD_COMPLETE), RECEIVER_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            context.registerReceiver(receiver, IntentFilter(ACTION_DOWNLOAD_COMPLETE))
         }
     }
 
